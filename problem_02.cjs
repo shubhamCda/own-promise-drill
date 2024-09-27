@@ -29,6 +29,7 @@ function problem_02_process() {
         })
         .then(() => {
             console.log("lowercase.txt updated successfull..!");
+            return store_filenames(filenames_path, lowercase_file_path);
             
         })
 
