@@ -11,18 +11,23 @@ function create_and_delete() {
             return generate_json_files(directory_path, 5);
 
         })
-        .then(() =>{
+        .then((files) => {
             console.log("json files generated..!");
-            
+            return delete_files(files);
+
+        })
+        .then(() => {
+            console.log("files deleted successully..!");
+
         })
 
 }
 
 
 
-function create_directory(path) {
+function create_directory(dirPath) {
     return new Promise((resolve, reject) => {
-        fs.mkdir(path, (err, _data) => {
+        fs.mkdir(dirPath, { recursive: true }, (err, _data) => {
             if (err) {
                 reject(err);
             } else {
@@ -41,21 +46,37 @@ function generate_json_files(dirPath, count) {
             username: 'shubham',
             city: 'bengaluru'
         });
-        const p = new Promise((resolve, reject) =>{
-            fs.writeFile(json_file, json_data, (err, _data) =>{
+        const p = new Promise((resolve, reject) => {
+            fs.writeFile(json_file, json_data, (err, _data) => {
                 if (err) {
                     reject(err);
-                }else{
+                } else {
                     resolve(json_file);
                 }
-            })
-        })
+            });
+        });
         all_json_promise.push(p);
-        
+
     }
     return Promise.all(all_json_promise);
 }
 
+function delete_files(paths) {
+    const remove_files = paths.map((files) => {
+        new Promise((resolve, reject) => {
+            fs.unlink(files, (err) => {
+                if (err) {
+                    reject(err);
+
+                } else {
+                    resolve();
+                }
+            });
+        });
+    });
+
+    return Promise.all(remove_files);
+}
 
 
 
