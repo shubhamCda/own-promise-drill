@@ -4,11 +4,11 @@ const path = require("path");
 const directory_path = path.join(__dirname, "json-files");
 
 
-function create_and_delete() {
+function create_and_delete(count) {
     create_directory(directory_path)
         .then(() => {
             console.log("Directory created..!");
-            return generate_json_files(directory_path, 5);
+            return generate_json_files(directory_path, count);
 
         })
         .then((files) => {
@@ -81,4 +81,4 @@ function delete_files(paths) {
 
 
 
-create_and_delete();
+module.exports = { create_and_delete };
