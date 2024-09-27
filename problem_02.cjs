@@ -21,7 +21,15 @@ function problem_02_process() {
         })
         .then(() => {
             console.log("filenames.txt updated.");
+            return file_reader(uppercase_file_path);
 
+        })
+        .then((data) => {
+            return convert_to_lowercase(data, lowercase_file_path);
+        })
+        .then(() => {
+            console.log("lowercase.txt updated successfull..!");
+            
         })
 
 }
@@ -35,12 +43,18 @@ function convert_to_uppercase(data, filePath) {
 }
 
 
+function convert_to_lowercase(data, filePath) {
+    const lowercase_content = data.toLowerCase();
+    return file_writer(lowercase_content, filePath);
+}
+
+
 function store_filenames(filePath, filesName) {
     return new Promise((resolve, reject) => {
-        fs.appendFile(filePath, filesName + "\n", (err) =>{
+        fs.appendFile(filePath, filesName + "\n", (err) => {
             if (err) {
                 reject(err);
-            }else{
+            } else {
                 resolve("");
             }
         });
