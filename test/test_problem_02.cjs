@@ -1,6 +1,6 @@
 const path = require("path")
 
-const { convert_to_uppercase, convert_to_lowercase, sort_file_content, store_filenames, file_reader } = require("../problem_02.cjs");
+const { convert_to_uppercase, convert_to_lowercase, sort_file_content, store_filenames, file_reader, delete_files } = require("../problem_02.cjs");
 
 
 const input_file_path = path.join(__dirname, "../lipsum.txt");
@@ -42,8 +42,16 @@ function problem_02_process() {
         })
         .then(() => {
             console.log("sorted.txt updated successfully..!");
-
+            return file_reader(filenames_path);
         })
+        .then((link) => {
+            return delete_files(link);
+        })
+        .then(() => {
+            console.log("files successfully deleted...");
+            
+        })
+        .catch((err) => console.log(err));
 
 }
 
