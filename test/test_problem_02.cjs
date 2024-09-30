@@ -42,6 +42,10 @@ function problem_02_process() {
         })
         .then(() => {
             console.log("sorted.txt updated successfully..!");
+            return store_filenames(sorted_file_path);
+        })
+        .then(() => {
+            console.log("filenames.txt updated.");
             return file_reader(filenames_path);
         })
         .then((link) => {
@@ -49,7 +53,7 @@ function problem_02_process() {
         })
         .then(() => {
             console.log("files successfully deleted...");
-            
+
         })
         .catch((err) => console.log(err));
 
