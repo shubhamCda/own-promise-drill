@@ -1,30 +1,14 @@
 const fs = require("fs");
-const path = require("path");
 
-const directory_path = path.join(__dirname, "json-files");
+/*
+    Problem 1:
+    
+    Using own promise method, do the following:
+        1. Create a directory of random JSON files
+        2. Delete those files simultaneously 
+*/
 
-
-function create_and_delete(count) {
-    create_directory(directory_path)
-        .then(() => {
-            console.log("Directory created..!");
-            return generate_json_files(directory_path, count);
-
-        })
-        .then((files) => {
-            console.log("json files generated..!");
-            return delete_files(files);
-
-        })
-        .then(() => {
-            console.log("files deleted successully..!");
-
-        })
-
-}
-
-
-
+//function to create new directory
 function create_directory(dirPath) {
     return new Promise((resolve, reject) => {
         fs.mkdir(dirPath, { recursive: true }, (err, _data) => {
@@ -37,6 +21,8 @@ function create_directory(dirPath) {
     });
 }
 
+
+//function generate randon JSON files.
 function generate_json_files(dirPath, count) {
     const all_json_promise = [];
 
@@ -61,6 +47,8 @@ function generate_json_files(dirPath, count) {
     return Promise.all(all_json_promise);
 }
 
+
+//function to delete files simultaneously.
 function delete_files(paths) {
     const remove_files = paths.map((files) => {
         new Promise((resolve, reject) => {
@@ -81,4 +69,4 @@ function delete_files(paths) {
 
 
 
-module.exports = { create_and_delete };
+module.exports = { create_directory, generate_json_files, delete_files };
