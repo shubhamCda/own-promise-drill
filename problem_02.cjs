@@ -73,21 +73,20 @@ function file_writer(data, filePath) {
 
 // delete all the new files that are mentioned in that list simultaneously.
 function delete_files(files) {
-    const seperate_files = files.split("\n");
-
-    const deleted_files = seperate_files.forEach(link => {
+    const seperate_files = files.split("\n").filter(Boolean);
+    
+    const deleted_files = seperate_files.map(link => 
         new Promise((resolve, reject) => {
-            if (link !== "") {
-                fs.unlink(link, (err) => {
-                    if (err) {
-                        reject(err);
-                    }else{
-                        resolve("");
-                    }
-                })
-            }
+            fs.unlink(link, (err) => {
+                if (err) {
+                    reject(err);
+                }else{
+                    resolve("");
+                }
+            })
         })
-    });
+    );
+    
     return Promise.all(deleted_files);
 }
 
