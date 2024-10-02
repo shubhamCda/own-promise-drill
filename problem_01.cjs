@@ -1,4 +1,5 @@
 const fs = require("fs");
+const path = require("path");
 
 /*
     Problem 1:
@@ -7,6 +8,30 @@ const fs = require("fs");
         1. Create a directory of random JSON files
         2. Delete those files simultaneously 
 */
+
+
+const directory_path = path.join(__dirname, "json-files");
+
+
+function create_and_delete(count) {
+    create_directory(directory_path)
+        .then(() => {
+            console.log("Directory created..!");
+            return generate_json_files(directory_path, count);
+
+        })
+        .then((files) => {
+            console.log("json files generated..!");
+            return delete_files(files);
+
+        })
+        .then(() => {
+            console.log("files deleted successully..!");
+
+        })
+
+}
+
 
 //function to create new directory
 function create_directory(dirPath) {
@@ -69,4 +94,4 @@ function delete_files(paths) {
 
 
 
-module.exports = { create_directory, generate_json_files, delete_files };
+module.exports = { create_and_delete };
